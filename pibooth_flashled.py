@@ -22,10 +22,12 @@ def pibooth_configure(cfg):
     cfg.add_option('FLASH', 'white_balance', (50, 50),
                    "The white balance (warm white, cool white) in percent",
                    'White balance (warm, cool)', [str((i, 100 - i)) for i in range(10, 100, 10)])
+    cfg.add_option('FLASH', 'brightness', 50,
+                   "The brightness in percent",
+                   'Brightness (%)', [str(i) for i in range(0, 101, 1)])    								
     cfg.add_option('FLASH', 'fade_delay', 1000,
                    "How long is the fade light in milliseconds (0 to skip it)",
                    'Fade delay (ms)', [str(i) for i in range(0, 2001, 100)])
-
 @pibooth.hookimpl
 def state_chosen_exit(app, cfg):
     """Configure LED strips (warm white and cool white).
@@ -42,11 +44,12 @@ def state_chosen_exit(app, cfg):
     """Turn on the flash.
     """
     white_balance = cfg.gettyped('FLASH', 'white_balance')
+    brightness = cfg.gettyped('FLASH', 'brightness')
     fade_delay = cfg.gettyped('FLASH', 'fade_delay')
 
     if fade_delay == 0:
-        app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(white_balance[0]*10000))
-        app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(white_balance[1]*10000))
+        app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(white_balance[0]*brightness*100))
+        app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(white_balance[1]*brightness*100))
 
     else:
         level_warmwhite = 0
@@ -57,8 +60,8 @@ def state_chosen_exit(app, cfg):
         step_coolwhite = white_balance[1] / steps_number
 
         while level_warmwhite <= white_balance[0] and level_coolwhite <= white_balance[1]:
-            app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(level_warmwhite*10000))
-            app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(level_coolwhite*10000))
+            app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(level_warmwhite*brightness*100))
+            app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(level_coolwhite*brightness*100))
 
             sleep(10/1000)
 
@@ -70,6 +73,7 @@ def state_processing_enter(app, cfg):
     """Turn off the flash.
     """
     white_balance = cfg.gettyped('FLASH', 'white_balance')
+    brightness = cfg.gettyped('FLASH', 'brightness')
     fade_delay = cfg.gettyped('FLASH', 'fade_delay')
 
     if fade_delay == 0:
@@ -85,8 +89,8 @@ def state_processing_enter(app, cfg):
         step_coolwhite = white_balance[1] / steps_number
 
         while level_warmwhite >= 0 and level_coolwhite >= 0:
-            app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(level_warmwhite*10000))
-            app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(level_coolwhite*10000))
+            app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(level_warmwhite*brightness*100))
+            app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(level_coolwhite*brightness*100))
 
             sleep(10/1000)
 
