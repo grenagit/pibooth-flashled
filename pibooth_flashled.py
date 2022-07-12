@@ -24,10 +24,11 @@ def pibooth_configure(cfg):
                    'White balance (warm, cool)', [str((i, 100 - i)) for i in range(10, 100, 10)])
     cfg.add_option('FLASH', 'brightness', 50,
                    "The brightness in percent",
-                   'Brightness (%)', [str(i) for i in range(0, 101, 1)])    								
+                   'Brightness (%)', [str(i) for i in range(0, 101, 1)])
     cfg.add_option('FLASH', 'fade_delay', 1000,
                    "How long is the fade light in milliseconds (0 to skip it)",
                    'Fade delay (ms)', [str(i) for i in range(0, 2001, 100)])
+
 @pibooth.hookimpl
 def state_chosen_exit(app, cfg):
     """Configure LED strips (warm white and cool white).
@@ -51,21 +52,21 @@ def state_chosen_exit(app, cfg):
         level_warmwhite = 0
         level_coolwhite = 0
 
-        steps_number = fade_delay/10
+        steps_number = fade_delay / 10
         step_warmwhite = white_balance[0] / steps_number
         step_coolwhite = white_balance[1] / steps_number
 
         while level_warmwhite <= white_balance[0] and level_coolwhite <= white_balance[1]:
-            app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(level_warmwhite*brightness*100))
-            app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(level_coolwhite*brightness*100))
+            app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(level_warmwhite * brightness * 100))
+            app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(level_coolwhite * brightness * 100))
 
-            sleep(10/1000)
+            sleep(10 / 1000)
 
             level_warmwhite += step_warmwhite
             level_coolwhite += step_coolwhite
-            
-    app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(white_balance[0]*brightness*100))
-    app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(white_balance[1]*brightness*100))        
+
+    app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(white_balance[0] * brightness * 100))
+    app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(white_balance[1] * brightness * 100))
 
 @pibooth.hookimpl
 def state_processing_enter(app, cfg):
@@ -79,19 +80,19 @@ def state_processing_enter(app, cfg):
         level_warmwhite = white_balance[0]
         level_coolwhite = white_balance[1]
 
-        steps_number = fade_delay/10
+        steps_number = fade_delay / 10
         step_warmwhite = white_balance[0] / steps_number
         step_coolwhite = white_balance[1] / steps_number
 
         while level_warmwhite >= 0 and level_coolwhite >= 0:
-            app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(level_warmwhite*brightness*100))
-            app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(level_coolwhite*brightness*100))
+            app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(level_warmwhite * brightness * 100))
+            app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(level_coolwhite * brightness * 100))
 
-            sleep(10/1000)
+            sleep(10 / 1000)
 
             level_warmwhite -= step_warmwhite
             level_coolwhite -= step_coolwhite
-            
+
     app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, 0)
     app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, 0)
 
