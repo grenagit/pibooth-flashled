@@ -47,11 +47,7 @@ def state_chosen_exit(app, cfg):
     brightness = cfg.gettyped('FLASH', 'brightness')
     fade_delay = cfg.gettyped('FLASH', 'fade_delay')
 
-    if fade_delay == 0:
-        app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(white_balance[0]*brightness*100))
-        app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(white_balance[1]*brightness*100))
-
-    else:
+    if fade_delay != 0:
         level_warmwhite = 0
         level_coolwhite = 0
 
@@ -67,6 +63,9 @@ def state_chosen_exit(app, cfg):
 
             level_warmwhite += step_warmwhite
             level_coolwhite += step_coolwhite
+            
+    app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, int(white_balance[0]*brightness*100))
+    app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, int(white_balance[1]*brightness*100))        
 
 @pibooth.hookimpl
 def state_processing_enter(app, cfg):
@@ -76,11 +75,7 @@ def state_processing_enter(app, cfg):
     brightness = cfg.gettyped('FLASH', 'brightness')
     fade_delay = cfg.gettyped('FLASH', 'fade_delay')
 
-    if fade_delay == 0:
-        app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, 0)
-        app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, 0)
-
-    else:
+    if fade_delay != 0:
         level_warmwhite = white_balance[0]
         level_coolwhite = white_balance[1]
 
@@ -96,6 +91,9 @@ def state_processing_enter(app, cfg):
 
             level_warmwhite -= step_warmwhite
             level_coolwhite -= step_coolwhite
+            
+    app.strip_warmwhite.hardware_PWM(app.pin_warmwhite, 100, 0)
+    app.strip_coolwhite.hardware_PWM(app.pin_coolwhite, 100, 0)
 
     """Stop LED strips (warm white and cool white).
     """
