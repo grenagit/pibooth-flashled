@@ -65,8 +65,8 @@ def state_chosen_exit(app, cfg):
 
             sleep(10/1000)
 
-            level_warmwhite = level_warmwhite + step_warmwhite
-            level_coolwhite = level_coolwhite + step_coolwhite
+            level_warmwhite += step_warmwhite
+            level_coolwhite += step_coolwhite
 
 @pibooth.hookimpl
 def state_processing_enter(app, cfg):
@@ -94,8 +94,8 @@ def state_processing_enter(app, cfg):
 
             sleep(10/1000)
 
-            level_warmwhite = level_warmwhite - step_warmwhite
-            level_coolwhite = level_coolwhite - step_coolwhite
+            level_warmwhite -= step_warmwhite
+            level_coolwhite -= step_coolwhite
 
     """Stop LED strips (warm white and cool white).
     """
