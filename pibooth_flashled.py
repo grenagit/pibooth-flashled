@@ -24,7 +24,7 @@ def pibooth_configure(cfg):
                    'White balance (warm, cool)', [str((i, 100 - i)) for i in range(10, 100, 10)])
     cfg.add_option('FLASH', 'brightness', 50,
                    "The brightness in percent",
-                   'Brightness (%)', [str(i) for i in range(0, 101, 1)])
+                   'Brightness (%)', [str(i) for i in range(0, 101, 10)])
     cfg.add_option('FLASH', 'fade_delay', 1000,
                    "How long is the fade light in milliseconds (0 to skip it)",
                    'Fade delay (ms)', [str(i) for i in range(0, 2001, 100)])
