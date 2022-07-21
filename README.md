@@ -36,6 +36,9 @@ coolwhite_pin = 13
 		
 # The white balance (warm white, cool white) in percent
 white_balance = (50, 50)
+
+# The brightness in percent
+brightness = 50
 		
 # How long is the fade light in milliseconds (0 to skip it)
 fade_delay = 1000
