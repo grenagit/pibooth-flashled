@@ -8,7 +8,7 @@ from pibooth.utils import LOGGER
 
 
 
-__version__ = "1.1.0"
+__version__ = "1.1.1s"
 
 
 

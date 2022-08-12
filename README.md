@@ -45,7 +45,13 @@ fade_delay = 1000
 
 ```
 
-### Note
-
 Edit the configuration by running the command `pibooth --config`.
+
+
+Circuit diagram
+---------------
+
+Here is the diagram for hardware connections.
+
+![Electronic sketch](https://raw.githubusercontent.com/grenagit/pibooth-flashled/master/docs/images/sketch.png)
 
