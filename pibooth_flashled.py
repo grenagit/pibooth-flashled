@@ -41,7 +41,6 @@ def state_chosen_exit(app, cfg):
     app.strip_coolwhite = pigpio.pi()
     app.strip_coolwhite.set_mode(app.pin_coolwhite, pigpio.OUTPUT)
 
-
     """Turn on the flash.
     """
     white_balance = cfg.gettyped('FLASH', 'white_balance')

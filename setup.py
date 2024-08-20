@@ -34,7 +34,6 @@ def main():
             'Topic :: Multimedia :: Graphics :: Capture :: Digital Camera',
         ],
         author="Grena",
-        author_email="grena+pibooth@grenabox.fr",
         url="https://github.com/grenagit/pibooth-flashled",
         download_url="https://github.com/grenagit/pibooth-flashled/archive/{}.tar.gz".format(plugin.__version__),
         license='MIT license',
